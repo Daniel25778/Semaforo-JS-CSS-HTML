@@ -1,6 +1,6 @@
 const semaforo = document.getElementById("Semaforo")
 let idInterval
-)
+
 
 function botoesLigaDesliga(vermelhoEstado, amareloEstado, verdeEstado) {
 
@@ -13,15 +13,14 @@ function botoesLigaDesliga(vermelhoEstado, amareloEstado, verdeEstado) {
 
 }
 
-function LigarVermelho() {
-    semaforo.src = "img/vermelho.png"
-    botoesLigaDesliga(true, false, false)
-}
-
-
 function LigarAmarelo() {
     semaforo.src = "img/amarelo.png"
     botoesLigaDesliga(false, true, false)
+}
+
+function LigarVermelho() {
+    semaforo.src = "img/vermelho.png"
+    botoesLigaDesliga(true, false, false)
 }
 
 function LigarVerde() {
@@ -31,10 +30,14 @@ function LigarVerde() {
 
 
 function trocarImagem() {
-    if (semaforo.src = "img/desligado") {
+    if (semaforo.src.includes("desligado")) {
         LigarVermelho()
-    } else {
+    } else if (semaforo.src.includes("vermelho")) {
+        LigarAmarelo()
+    } else if (semaforo.src.includes("amarelo")) {
         LigarVerde()
+    } else if (semaforo.src.includes("verde")) {
+        LigarVermelho()
     }
 }
 
@@ -42,7 +45,16 @@ function trocarImagem() {
 
 function Automatico() {
     const automatico = document.getElementById("automatico")
-    idInterval = setInterval(trocarImagem, 1000)
+    if (automatico.textContent == "Automático") {
+        idInterval = setInterval(trocarImagem, 1000)
+        automatico.textContent = "Parar"
+    } else {
+        clearInterval(idInterval)
+        semaforo.src = "img/desligado.png"
+        automatico.textContent = "Automático"
+    }
+
+
 }
 
 // function piscar() {
